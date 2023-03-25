@@ -10,7 +10,6 @@
 //
 //	t := rtime.RTime{time.Now()}
 //	t.Format("ПН/Mon, 2 Янв/Jan 2006") // "СР/Wed, 1 Мар/Mar 2023
-
 package rtime
 
 import (
@@ -303,45 +302,25 @@ func Now() RTime {
 	return RTime{time.Now()}
 }
 
-// Date returns the Time corresponding to
-//
-//	yyyy-mm-dd hh:mm:ss + nsec nanoseconds
-//
-// in the appropriate zone for that time in the given location.
-//
-// The month, day, hour, min, sec, and nsec values may be outside
-// their usual ranges and will be normalized during the conversion.
-// For example, October 32 converts to November 1.
-//
-// A daylight savings time transition skips or repeats times.
-// For example, in the United States, March 13, 2011 2:15am never occurred,
-// while November 6, 2011 1:15am occurred twice. In such cases, the
-// choice of time zone, and therefore the time, is not well-defined.
-// Date returns a time that is correct in one of the two zones involved
-// in the transition, but it does not guarantee which.
-//
-// Date panics if loc is nil.
+// Date is the envelope for the time.Date function and creates RTime for the passed date params.
 func Date(year int, month time.Month, day, hour, min, sec, nsec int, loc *time.Location) RTime {
 	t := time.Date(year, month, day, hour, min, sec, nsec, loc)
 	return RTime{t}
 }
 
-// Unix returns the local Time corresponding to the given Unix time,
+// Unix is the envelope for the time.Unix function and creates RTime corresponding to the given Unix time,
 // sec seconds and nsec nanoseconds since January 1, 1970 UTC.
-// It is valid to pass nsec outside the range [0, 999999999].
-// Not all sec values have a corresponding time value. One such
-// value is 1<<63-1 (the largest int64 value).
 func Unix(sec int64, nsec int64) RTime {
 	return RTime{time.Unix(sec, nsec)}
 }
 
-// UnixMilli returns the local Time corresponding to the given Unix time,
+// UnixMilli is the envelope for the time.UnixMilli and returns the local Time corresponding to the given Unix time,
 // msec milliseconds since January 1, 1970 UTC.
 func UnixMilli(msec int64) RTime {
 	return RTime{time.UnixMilli(msec)}
 }
 
-// UnixMicro returns the local Time corresponding to the given Unix time,
+// UnixMicro is the envelope for the time.UnixMicro and returns the local Time corresponding to the given Unix time,
 // usec microseconds since January 1, 1970 UTC.
 func UnixMicro(usec int64) RTime {
 	return RTime{time.UnixMicro(usec)}
@@ -354,9 +333,6 @@ type RTime struct {
 // Format returns a textual representation of the time value formatted according
 // to the layout defined by the argument. See the documentation for the
 // constant called Layout to see how to represent the layout format.
-//
-// The executable example for Time.Format demonstrates the working
-// of the layout string in detail and is a good reference.
 func (t RTime) Format(layout string) string {
 	var b []byte
 	max := len(layout) + 10
@@ -439,61 +415,41 @@ func nextChunk(layout string) (prefix string, std int, suffix string) {
 	return layout, 0, ""
 }
 
-// Add returns the time t+d.
+// Add is the envelope for the Time.Add and returns the time t+d.
 func (t RTime) Add(d time.Duration) RTime {
 	return RTime{t.Time.Add(d)}
 }
 
-// AddDate returns the time corresponding to adding the
+// AddDate is the envelope for the Time.AddDate and returns the time corresponding to adding the
 // given number of years, months, and days to t.
-// For example, AddDate(-1, 2, 3) applied to January 1, 2011
-// returns March 4, 2010.
-//
-// AddDate normalizes its result in the same way that Date does,
-// so, for example, adding one month to October 31 yields
-// December 1, the normalized form for November 31.
 func (t RTime) AddDate(years int, months int, days int) RTime {
 	return RTime{t.Time.AddDate(years, months, days)}
 }
 
-// UTC returns t with the location set to UTC.
+// UTC is the envelope for the Time.UTC and returns t with the location set to UTC.
 func (t RTime) UTC() RTime {
 	return RTime{t.Time.UTC()}
 }
 
-// Local returns t with the location set to local time.
+// Local is the envelope for the Time.Local and returns t with the location set to local time.
 func (t RTime) Local() RTime {
 	return RTime{t.Time.Local()}
 }
 
-// In returns a copy of t representing the same time instant, but
-// with the copy's location information set to loc for display
-// purposes.
-//
-// In panics if loc is nil.
+// In is the envelope for the Time.In returns a copy of t representing the same time instant, but
+// with the copy's location information set to loc for display purposes.
 func (t RTime) In(loc *time.Location) RTime {
 	return RTime{t.Time.In(loc)}
 }
 
-// Truncate returns the result of rounding t down to a multiple of d (since the zero time).
-// If d <= 0, Truncate returns t stripped of any monotonic clock reading but otherwise unchanged.
-//
-// Truncate operates on the time as an absolute duration since the
-// zero time; it does not operate on the presentation form of the
-// time. Thus, Truncate(Hour) may return a time with a non-zero
-// minute, depending on the time's Location.
+// Truncate is the envelope for the Time.Truncate
+// and returns the result of rounding t down to a multiple of d (since the zero time).
 func (t RTime) Truncate(d time.Duration) RTime {
 	return RTime{t.Time.Truncate(d)}
 }
 
-// Round returns the result of rounding t to the nearest multiple of d (since the zero time).
-// The rounding behavior for halfway values is to round up.
-// If d <= 0, Round returns t stripped of any monotonic clock reading but otherwise unchanged.
-//
-// Round operates on the time as an absolute duration since the
-// zero time; it does not operate on the presentation form of the
-// time. Thus, Round(Hour) may return a time with a non-zero
-// minute, depending on the time's Location.
+// Round is the envelope for the Time.Round
+// and returns the result of rounding t to the nearest multiple of d (since the zero time).
 func (t RTime) Round(d time.Duration) RTime {
 	return RTime{t.Time.Round(d)}
 }

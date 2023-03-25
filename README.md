@@ -1,5 +1,7 @@
 # rtime
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/tariel-x/rtime.svg)](https://pkg.go.dev/github.com/tariel-x/rtime)
+
 Пакет Rtime -- обёртка для time.Time, предназначенная для форматирования дат на русском языке. 
 Расширяет функцию Format, добавляя дополнительные плейсхолдеры.
 

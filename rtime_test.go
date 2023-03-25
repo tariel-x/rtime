@@ -64,6 +64,55 @@ func TestFormat(t *testing.T) {
 	}
 }
 
+func TestFormatMonths(t *testing.T) {
+	months := []string{
+		"Январь",
+		"Февраль",
+		"Март",
+		"Апрель",
+		"Май",
+		"Июнь",
+		"Июль",
+		"Август",
+		"Сентябрь",
+		"Октябрь",
+		"Ноябрь",
+		"Декабрь",
+	}
+	loc, _ := time.LoadLocation("Europe/Moscow")
+	tt := rtime.Date(2023, 01, 1, 02, 48, 05, 0, loc)
+
+	for _, month := range months {
+		actual := tt.Format("Январь")
+		if actual != month {
+			t.Errorf("Expected %s actual %s", month, actual)
+		}
+		tt = tt.AddDate(0, 1, 0)
+	}
+}
+
+func TestFormatDays(t *testing.T) {
+	days := []string{
+		"Понедельник",
+		"Вторник",
+		"Среда",
+		"Четверг",
+		"Пятница",
+		"Суббота",
+		"Воскресенье",
+	}
+	loc, _ := time.LoadLocation("Europe/Moscow")
+	tt := rtime.Date(2023, 1, 2, 2, 48, 05, 0, loc)
+
+	for _, day := range days {
+		actual := tt.Format("Понедельник")
+		if actual != day {
+			t.Errorf("Expected %s actual %s", day, actual)
+		}
+		tt = tt.AddDate(0, 0, 1)
+	}
+}
+
 func TestDate(t *testing.T) {
 	loc, _ := time.LoadLocation("Europe/Moscow")
 	tt := time.Date(2023, 03, 1, 02, 48, 05, 0, loc)

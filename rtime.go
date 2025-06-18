@@ -35,6 +35,9 @@ const (
 	StampMilli  = time.StampMilli
 	StampMicro  = time.StampMicro
 	StampNano   = time.StampNano
+	DateTime    = time.DateTime
+	DateOnly    = time.DateOnly
+	TimeOnly    = time.TimeOnly
 )
 
 // Additional
@@ -335,8 +338,8 @@ type RTime struct {
 // constant called Layout to see how to represent the layout format.
 func (t RTime) Format(layout string) string {
 	var b []byte
-	max := len(layout) + 10
-	b = make([]byte, 0, max)
+	maxLength := len(layout) + 10
+	b = make([]byte, 0, maxLength)
 
 	month := month(t.Month())
 	day := day(t.Weekday())
